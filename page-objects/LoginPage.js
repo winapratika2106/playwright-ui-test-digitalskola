@@ -1,17 +1,24 @@
 class LoginPage {
-    constructor(page) {
+  constructor(page) {
       this.page = page;
-      this.usernameInput = '#user-name';
-      this.passwordInput = '#password';
-      this.loginButton = '#login-button';
-    }
-  
-    async login(username, password) {
-      await this.page.fill(this.usernameInput, username);
-      await this.page.fill(this.passwordInput, password);
-      await this.page.click(this.loginButton);
-    }
+      this.usernameInput = page.locator('#user-name');
+      this.passwordInput = page.locator('#password');
+      this.loginButton = page.locator('#login-button');
   }
-  
-  module.exports = { LoginPage };
-  
+
+  async navigate() {
+      await this.page.goto(process.env.BASE_URL || 'https://www.saucedemo.com');
+  }
+
+  async login(username, password) {
+      await this.usernameInput.fill(username);
+      await this.passwordInput.fill(password);
+      await this.loginButton.click();
+  }
+
+  async takeScreenshot() {
+      return await this.page.screenshot();
+  }
+}
+
+module.exports = LoginPage;
